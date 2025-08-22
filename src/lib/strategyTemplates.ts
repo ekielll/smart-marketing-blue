@@ -1,11 +1,11 @@
 export interface StrategyTemplate {
   id: string
-  description:
-  keyMetrics: string[
+  name: string
+  description: string
+  targetIndustries: string[]
+  keyMetrics: string[]
+  recommendedChannels: string[]
   contentPillars: string[]
-    channel: string
-    description: string
-  competitorAnalysisPoints
   budgetAllocation: {
     channel: string
     percentage: number
@@ -14,54 +14,53 @@ export interface StrategyTemplate {
   competitorAnalysisPoints: string[]
   marketResearchAreas: string[]
   implementation: {
-export const stra
-    id: 'b2b-saas',
-    description: 'Proven framework for 
-    keyMetrics: [
-     
- 
+    phase: string
+    duration: string
+    priority: string
+    actions: string[]
+  }[]
+}
 
+export const strategyTemplates: StrategyTemplate[] = [
+  {
+    id: 'b2b-saas',
+    name: 'B2B SaaS Strategy',
+    description: 'Proven framework for B2B SaaS companies to drive qualified leads and accelerate growth',
+    targetIndustries: ['SaaS', 'Software', 'Technology', 'B2B Services', 'Enterprise Solutions'],
+    keyMetrics: [
+      'Monthly Recurring Revenue (MRR)',
+      'Customer Acquisition Cost (CAC)',
+      'Lifetime Value (LTV)',
+      'Lead-to-Customer Conversion Rate',
+      'Free Trial to Paid Conversion',
+      'Churn Rate'
+    ],
     recommendedChannels: [
-   
-      'Email Market
-      'Industry Events'
+      'LinkedIn Advertising',
+      'Google Ads (Search & Display)',
+      'Content Marketing',
+      'Email Marketing',
+      'Webinars & Events',
+      'Industry Publications'
+    ],
     contentPillars: [
       'Industry Insights & Trends',
-      'Thought Le
+      'Thought Leadership',
+      'Product Education',
+      'Case Studies & Success Stories',
+      'Technical Resources'
     ],
-      { channel: 'LinkedIn Ads', percent
-      { channel: 'Content Marketing', 
-      { channel: 'E
+    budgetAllocation: [
+      { channel: 'LinkedIn Ads', percentage: 30, description: 'Target decision-makers and key stakeholders' },
+      { channel: 'Content Marketing', percentage: 25, description: 'Build authority and drive organic traffic' },
+      { channel: 'Google Ads', percentage: 20, description: 'Capture high-intent search traffic' },
+      { channel: 'Email Marketing', percentage: 15, description: 'Nurture leads through sales funnel' },
+      { channel: 'Events & Webinars', percentage: 10, description: 'Build relationships and demonstrate expertise' }
+    ],
     competitorAnalysisPoints: [
       'Pricing strategy analysis',
-      
-      'Partnership and int
-    marketResearchAreas: [
-      'Buying process and decision cri
-      'Technology adoption
-      'Market size and g
-    implementation: [
-        phase: 'Foundat
-      
-          'Set up ana
-          'Create core content assets'
-        ]
-      {
-        duration: '4 months
-        actions: [
-      
-          'Set up email
-      },
-        phase: 'Optimization (Month 7-12)',
-        priority: 'Medium',
-          'A/B test ad creatives and landing pages',
-          'Implement account-based marketing',
-      
-    ]
-  {
-    name: 'E-commerce & Retail Str
-    targetIndustries: ['E-commerce'
-      'Revenue Growth',
+      'Feature comparison and positioning',
+      'Content marketing strategies',
       'Sales process and free trial offerings',
       'Partnership and integration strategies'
     ],
@@ -254,138 +253,143 @@ export const stra
         priority: 'High',
         actions: [
           'Optimize Google My Business listing',
-      'Market Analysis & Trends'
+          'Claim all relevant directory listings',
+          'Set up review management system',
+          'Create location-specific landing pages'
+        ]
+      },
+      {
+        phase: 'Visibility Building (Month 3-6)',
+        duration: '4 months',
+        priority: 'High',
+        actions: [
+          'Launch Google Ads local campaigns',
+          'Start Facebook local advertising',
+          'Begin content marketing for local SEO',
+          'Establish community partnerships'
+        ]
+      },
+      {
+        phase: 'Community Leadership (Month 7-12)',
+        duration: '6 months',
+        priority: 'Medium',
+        actions: [
+          'Sponsor local events and organizations',
+          'Create educational content series',
+          'Build referral partner network',
+          'Expand to additional service areas'
+        ]
+      }
+    ]
+  },
+  {
+    id: 'professional-services',
+    name: 'Professional Services Strategy',
+    description: 'Authority-building approach for consultants, agencies, and professional service providers',
+    targetIndustries: ['Consulting', 'Legal', 'Accounting', 'Marketing Agencies', 'Financial Services'],
+    keyMetrics: [
+      'Qualified Lead Generation',
+      'Average Deal Size',
+      'Client Lifetime Value',
+      'Referral Rate',
+      'Thought Leadership Metrics',
+      'Pipeline Velocity'
+    ],
+    recommendedChannels: [
+      'LinkedIn Marketing',
+      'Industry Publications',
+      'Speaking Engagements',
+      'Professional Networking',
+      'Content Marketing',
+      'Referral Programs'
+    ],
+    contentPillars: [
+      'Industry Expertise',
+      'Case Studies & Results',
+      'Market Analysis & Trends',
+      'Professional Insights',
+      'Client Success Stories'
+    ],
     budgetAllocation: [
-      { channel: 'LinkedIn Marketing', percentage:
-      { c
+      { channel: 'LinkedIn Marketing', percentage: 35, description: 'Build professional authority and network' },
+      { channel: 'Content Creation', percentage: 30, description: 'Establish thought leadership' },
+      { channel: 'Event Marketing', percentage: 20, description: 'Speaking and networking opportunities' },
+      { channel: 'PR & Media', percentage: 10, description: 'Industry recognition and coverage' },
+      { channel: 'Referral Incentives', percentage: 5, description: 'Reward existing client referrals' }
     ],
-      '
-      'Client testimonials and case stud
-      'Professional credentia
+    competitorAnalysisPoints: [
+      'Service offerings and specializations',
+      'Pricing models and packages',
+      'Client testimonials and case studies',
+      'Professional credentials and awards',
+      'Industry partnerships',
+      'Thought leadership content'
     ],
-      'Industry ch
+    marketResearchAreas: [
+      'Industry challenges and pain points',
+      'Decision-making processes',
       'Budget allocation trends',
       'Trust and credibility factors',
+      'Service delivery preferences',
+      'Professional development needs'
     ],
+    implementation: [
       {
-        d
-        
-       
-          'Establish email newsletter program'
+        phase: 'Authority Building (Month 1-3)',
+        duration: '3 months',
+        priority: 'High',
+        actions: [
+          'Optimize LinkedIn profile and company page',
+          'Create cornerstone content pieces',
+          'Establish email newsletter program',
+          'Identify speaking opportunities'
+        ]
       },
-        phase: 'Visibility 
-        priority: 
+      {
+        phase: 'Visibility Expansion (Month 4-8)',
+        duration: '5 months',
+        priority: 'High',
+        actions: [
+          'Launch LinkedIn advertising campaigns',
           'Publish regular industry insights',
           'Apply for speaking opportunities',
+          'Build strategic partnerships'
         ]
+      },
       {
-        d
-       
-     
-    
-   
+        phase: 'Market Leadership (Month 9-12)',
+        duration: '4 months',
+        priority: 'Medium',
+        actions: [
+          'Host industry events or webinars',
+          'Pursue media coverage and awards',
+          'Expand referral partner network',
+          'Scale successful lead generation channels'
+        ]
+      }
+    ]
   }
+]
 
+export const getTemplatesByIndustry = (industry: string): StrategyTemplate[] => {
   const normalizedIndustry = industry.toLowerCase()
-  for (const template of strategyTemplates) {
-      normalizedI
-    )) {
-    }
-  
+  return strategyTemplates.filter(template => 
+    template.targetIndustries.some(targetIndustry => 
+      targetIndustry.toLowerCase().includes(normalizedIndustry) ||
+      normalizedIndustry.includes(targetIndustry.toLowerCase())
+    )
+  )
 }
-export const getAllTemplates =
+
+export const getTemplateById = (id: string): StrategyTemplate | undefined => {
+  return strategyTemplates.find(template => template.id === id)
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export const getRecommendedTemplate = (industry: string): StrategyTemplate | undefined => {
+  const templates = getTemplatesByIndustry(industry)
+  return templates.length > 0 ? templates[0] : undefined
+}
+
+export const getAllTemplates = (): StrategyTemplate[] => {
+  return strategyTemplates
+}
