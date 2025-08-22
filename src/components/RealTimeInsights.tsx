@@ -95,7 +95,7 @@ Analyze the provided company information and internal interview responses. Synth
 
 Company: ${companyInfo.name}Industry: ${companyInfo.industry}
 
-Interview Responses:${responses.map(r => Q: ${r.question}\nA: ${r.answer}).join('\n\n')}
+Interview Responses:${responses.map(r => `Q: ${r.question}\nA: ${r.answer}`).join('\n\n')}
 
 Generate the following structured data for visualization and executive review:
 
