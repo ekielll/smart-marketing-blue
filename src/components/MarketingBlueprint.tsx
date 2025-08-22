@@ -302,17 +302,13 @@ A${i + 1}: ${r.answer}
                 Print
               </Button>
               
-              <Button 
-                onClick={() => setShowPreview(true)} 
-                variant="outline" 
-                size="sm" 
-                className="gap-2"
-              >
-                <Eye size={16} />
-                Preview
-              </Button>
-              
               <Dialog open={showPreview} onOpenChange={setShowPreview}>
+                <DialogTrigger asChild>
+                  <Button variant="outline" className="gap-2">
+                    <Eye size={16} />
+                    Preview Report
+                  </Button>
+                </DialogTrigger>
                 <DialogContent className="max-w-5xl h-[90vh] p-0">
                   <DialogHeader className="p-6 pb-0">
                     <div className="flex items-center justify-between">
@@ -321,16 +317,20 @@ A${i + 1}: ${r.answer}
                         Report Preview
                       </DialogTitle>
                       <div className="flex items-center gap-2">
-                        <Button 
-                          onClick={downloadPDF} 
-                          size="sm" 
-                          className="gap-2"
-                          disabled={isDownloading}
-                        >
-                          {isDownloading ? (
-                            <>
-                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                              Generating...
+                        <Button onClick={downloadPDF} size="sm" className="gap-2">
+                          <Download size={16} />
+                          Download
+                        </Button>
+                      </div>
+                    </div>
+                  </DialogHeader>
+                  <ScrollArea className="h-full p-6 pt-0">
+                    <ReportPreview />
+                  </ScrollArea>
+                </DialogContent>
+              </Dialog>
+              
+              <Button onClick={onReset} variant="outline" className="gap-2">
                             </>
                           ) : (
                             <>
