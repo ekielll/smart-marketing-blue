@@ -5,6 +5,9 @@ import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Separator } from '@/components/ui/separator'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { 
   Download, 
@@ -19,9 +22,14 @@ import {
   Share,
   Printer,
   Eye,
-  X
+  X,
+  FloppyDisk,
+  Envelope,
+  Calendar,
+  Phone
 } from '@phosphor-icons/react'
 import { CompanyInfo, InterviewResponse, ExpertAnalysis } from '../App'
+import { downloadPDFReport, shareViaEmail, generateCalendarEvent, ReportData } from '../lib/reportUtils'
 import { toast } from 'sonner'
 
 interface MarketingBlueprintProps {
@@ -29,17 +37,26 @@ interface MarketingBlueprintProps {
   responses: InterviewResponse[]
   analysis: ExpertAnalysis
   onReset: () => void
+  onSave?: () => void
 }
 
 export default function MarketingBlueprint({ 
   companyInfo, 
   responses, 
   analysis, 
-  onReset 
+  onReset,
+  onSave
 }: MarketingBlueprintProps) {
   const [activeTab, setActiveTab] = useState('overview')
   const [showPreview, setShowPreview] = useState(false)
   const [isDownloading, setIsDownloading] = useState(false)
+  const [showEmailDialog, setShowEmailDialog] = useState(false)
+  const [showCalendarDialog, setShowCalendarDialog] = useState(false)
+  const [emailForm, setEmailForm] = useState({ 
+    to: companyInfo.email, 
+    subject: `Marketing Strategy for ${companyInfo.name}`,
+    message: `Hi ${companyInfo.contactName},\n\nAttached is your custom marketing strategy blueprint for ${companyInfo.name}. This comprehensive plan includes market analysis, social media strategy, advertising recommendations, and SEO tactics tailored specifically to your business.\n\nPlease review the recommendations and let me know if you have any questions.\n\nBest regards,\nMarketing Strategy Team`
+  })
 
   const downloadPDF = async () => {
     setIsDownloading(true)
@@ -47,51 +64,13 @@ export default function MarketingBlueprint({
     // Simulate processing time for better UX
     await new Promise(resolve => setTimeout(resolve, 1000))
     
-    // Create a comprehensive text version for now
-    const reportContent = `
-MARKETING STRATEGY BLUEPRINT
-Company: ${companyInfo.name}
-Industry: ${companyInfo.industry}
-Generated: ${new Date().toLocaleDateString()}
-
-================================
-
-MARKET ANALYSIS
-${analysis.marketAnalyst}
-
-================================
-
-SOCIAL MEDIA STRATEGY  
-${analysis.socialMediaGuru}
-
-================================
-
-ADVERTISING STRATEGY
-${analysis.advertisingPro}
-
-================================
-
-SEO STRATEGY
-${analysis.seoExpert}
-
-================================
-
-INTERVIEW RESPONSES
-${responses.map((r, i) => `
-Q${i + 1}: ${r.question}
-A${i + 1}: ${r.answer}
-`).join('\n')}
-`
-
-    const blob = new Blob([reportContent], { type: 'text/plain' })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `${companyInfo.name.replace(/\s+/g, '_')}_Marketing_Strategy.txt`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
+    const reportData: ReportData = {
+      companyInfo,
+      responses,
+      analysis
+    }
+    
+    downloadPDFReport(reportData)
     
     setIsDownloading(false)
     setShowPreview(false)
@@ -123,6 +102,30 @@ A${i + 1}: ${r.answer}
   const printReport = () => {
     window.print()
     toast.success('Print dialog opened!')
+  }
+
+  const sendEmail = () => {
+    const reportData: ReportData = {
+      companyInfo,
+      responses,
+      analysis
+    }
+    
+    shareViaEmail(reportData, emailForm.message)
+    setShowEmailDialog(false)
+    toast.success('Email client opened with strategy details!')
+  }
+
+  const scheduleConsultation = () => {
+    const reportData: ReportData = {
+      companyInfo,
+      responses,
+      analysis
+    }
+    
+    generateCalendarEvent(reportData)
+    setShowCalendarDialog(false)
+    toast.success('Calendar event template opened!')
   }
 
   const formatAnalysisContent = (content: string) => {
@@ -293,13 +296,37 @@ A${i + 1}: ${r.answer}
               <Badge variant="secondary" className="px-4 py-2">
                 {companyInfo.industry}
               </Badge>
+              
+              {onSave && (
+                <Button onClick={onSave} variant="outline" size="sm" className="gap-2">
+                  <FloppyDisk size={16} />
+                  Save
+                </Button>
+              )}
+              
+              <Button 
+                onClick={() => setShowEmailDialog(true)} 
+                variant="outline" 
+                size="sm" 
+                className="gap-2"
+              >
+                <Envelope size={16} />
+                Email
+              </Button>
+              
+              <Button 
+                onClick={() => setShowCalendarDialog(true)} 
+                variant="outline" 
+                size="sm" 
+                className="gap-2"
+              >
+                <Calendar size={16} />
+                Schedule
+              </Button>
+              
               <Button onClick={shareStrategy} variant="outline" size="sm" className="gap-2">
                 <Share size={16} />
                 Share
-              </Button>
-              <Button onClick={printReport} variant="outline" size="sm" className="gap-2">
-                <Printer size={16} />
-                Print
               </Button>
               
               <Dialog open={showPreview} onOpenChange={setShowPreview}>
@@ -523,6 +550,108 @@ A${i + 1}: ${r.answer}
           </TabsContent>
         </Tabs>
       </div>
+
+      {/* Email Dialog */}
+      <Dialog open={showEmailDialog} onOpenChange={setShowEmailDialog}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Envelope size={20} className="text-accent" />
+              Email Strategy Report
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email-to">To</Label>
+              <Input
+                id="email-to"
+                value={emailForm.to}
+                onChange={(e) => setEmailForm(prev => ({ ...prev, to: e.target.value }))}
+                placeholder="recipient@email.com"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="email-subject">Subject</Label>
+              <Input
+                id="email-subject"
+                value={emailForm.subject}
+                onChange={(e) => setEmailForm(prev => ({ ...prev, subject: e.target.value }))}
+                placeholder="Email subject"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="email-message">Message</Label>
+              <Textarea
+                id="email-message"
+                value={emailForm.message}
+                onChange={(e) => setEmailForm(prev => ({ ...prev, message: e.target.value }))}
+                placeholder="Email message"
+                rows={6}
+              />
+            </div>
+            <div className="flex justify-end gap-3">
+              <Button variant="outline" onClick={() => setShowEmailDialog(false)}>
+                Cancel
+              </Button>
+              <Button onClick={sendEmail} className="gap-2">
+                <Envelope size={16} />
+                Open Email Client
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Calendar Dialog */}
+      <Dialog open={showCalendarDialog} onOpenChange={setShowCalendarDialog}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <Calendar size={20} className="text-accent" />
+              Schedule Consultation
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div className="p-4 bg-muted rounded-lg">
+              <h4 className="font-semibold mb-2">Meeting Details</h4>
+              <div className="space-y-2 text-sm">
+                <p><strong>Company:</strong> {companyInfo.name}</p>
+                <p><strong>Contact:</strong> {companyInfo.contactName}</p>
+                <p><strong>Email:</strong> {companyInfo.email}</p>
+                <p><strong>Industry:</strong> {companyInfo.industry}</p>
+              </div>
+            </div>
+            
+            <div className="space-y-3">
+              <div className="flex items-center gap-2 p-3 border rounded-lg">
+                <Phone className="w-5 h-5 text-primary" />
+                <div>
+                  <p className="font-medium">Phone Consultation</p>
+                  <p className="text-sm text-muted-foreground">Discuss strategy over a phone call</p>
+                </div>
+              </div>
+              
+              <div className="flex items-center gap-2 p-3 border rounded-lg">
+                <Calendar className="w-5 h-5 text-primary" />
+                <div>
+                  <p className="font-medium">Video Meeting</p>
+                  <p className="text-sm text-muted-foreground">Screen-share to review the strategy together</p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="flex justify-end gap-3">
+              <Button variant="outline" onClick={() => setShowCalendarDialog(false)}>
+                Cancel
+              </Button>
+              <Button onClick={scheduleConsultation} className="gap-2">
+                <Calendar size={16} />
+                Create Calendar Event
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

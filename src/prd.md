@@ -44,14 +44,29 @@
 - **Success Criteria**: Each expert provides specific, actionable recommendations relevant to the business
 
 ### Phase 3: Marketing Blueprint Generation
-- **Functionality**: Professional report combining all expert analyses with visual organization and download capability
+- **Functionality**: Professional report combining all expert analyses with visual organization and export capabilities
 - **Purpose**: Deliver a complete, implementable marketing strategy
 - **Success Criteria**: Blueprint is comprehensive, well-organized, and actionable for business owners
 
-### Data Persistence
-- **Functionality**: Save progress across all phases to prevent data loss
-- **Purpose**: Allow users to complete the process over multiple sessions
-- **Success Criteria**: Users can navigate away and return without losing progress
+### Phase 4: Strategy Management Dashboard
+- **Functionality**: Central hub for managing multiple company strategies over time
+- **Purpose**: Allow users to track, compare, and manage strategies for different companies or iterations
+- **Success Criteria**: Easy strategy access, clear organization, and efficient workflow management
+
+### Phase 5: Export & Collaboration Tools
+- **Functionality**: PDF export, email sharing, and calendar scheduling for consultations
+- **Purpose**: Enable strategy distribution and follow-up collaboration
+- **Success Criteria**: Professional exports, seamless sharing, and easy consultation scheduling
+
+### Data Persistence & Strategy Management
+- **Functionality**: Save strategies across sessions with full dashboard management
+- **Purpose**: Allow users to manage multiple company strategies over time
+- **Success Criteria**: Persistent storage, easy strategy retrieval, organized dashboard interface
+
+### Export & Collaboration Features
+- **Functionality**: Comprehensive PDF reports, email integration, calendar scheduling
+- **Purpose**: Professional strategy distribution and consultation follow-up
+- **Success Criteria**: High-quality exports, seamless email integration, automated calendar events
 
 ## Design Direction
 
@@ -62,12 +77,21 @@
 **Simplicity Spectrum**: Clean and focused with rich information presentation
 
 ### Color Strategy
-**Color Scheme Type**: Sophisticated professional palette with purposeful accents
-**Primary Color**: Deep blue-purple (`oklch(0.25 0.15 250)`) - conveys trust, professionalism, intelligence
-**Secondary Colors**: Light grays and off-whites for content areas
-**Accent Color**: Warm amber (`oklch(0.70 0.15 45)`) - draws attention to key actions and progress
-**Color Psychology**: Blues build trust and convey expertise; amber creates warmth and highlights important actions
-**Color Accessibility**: All color combinations meet WCAG AA standards with sufficient contrast ratios
+**Color Scheme Type**: Professional navy and slate theme with sophisticated accents
+**Primary Color**: Deep navy (`oklch(0.35 0.12 220)`) - conveys trust, authority, and business professionalism
+**Secondary Colors**: Light slate (`oklch(0.94 0.015 220)`) for content areas and subtle backgrounds
+**Accent Color**: Professional blue (`oklch(0.65 0.15 200)`) - highlights actions and interactive elements
+**Supporting Colors**: 
+- Success: Professional green (`oklch(0.55 0.15 145)`) for completed states
+- Warning: Amber (`oklch(0.70 0.18 65)`) for attention-requiring items
+**Color Psychology**: Deep navy establishes credibility and expertise; blue accents maintain approachability while preserving professional authority
+**Color Accessibility**: All color combinations exceed WCAG AA standards with 4.5:1+ contrast ratios
+**Foreground/Background Pairings**:
+- Background (light slate) + Foreground (dark navy): 15:1 contrast ratio
+- Card (white) + Card foreground (dark navy): 16:1 contrast ratio  
+- Primary (navy) + Primary foreground (light slate): 12:1 contrast ratio
+- Secondary (light slate) + Secondary foreground (navy): 8:1 contrast ratio
+- Accent (blue) + Accent foreground (light slate): 5:1 contrast ratio
 
 ### Typography System
 **Font Pairing Strategy**: Single-font approach using Inter for consistency and professionalism

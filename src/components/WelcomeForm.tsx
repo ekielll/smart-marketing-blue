@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Phone, MessageCircle, Sparkles, ClockClockwise, Target } from '@phosphor-icons/react'
+import { Phone, MessageCircle, Sparkles, ClockClockwise, Target, ArrowLeft } from '@phosphor-icons/react'
 import { CompanyInfo } from '../App'
 import { toast } from 'sonner'
 
@@ -16,9 +16,10 @@ const industries = [
 
 interface WelcomeFormProps {
   onSubmit: (info: CompanyInfo) => void
+  onBack?: () => void
 }
 
-export default function WelcomeForm({ onSubmit }: WelcomeFormProps) {
+export default function WelcomeForm({ onSubmit, onBack }: WelcomeFormProps) {
   const [formData, setFormData] = useState<CompanyInfo>({
     name: '',
     industry: '',
@@ -39,6 +40,14 @@ export default function WelcomeForm({ onSubmit }: WelcomeFormProps) {
   return (
     <div className="min-h-screen flex items-center justify-center p-6">
       <div className="max-w-2xl w-full space-y-8">
+        {/* Back Button */}
+        {onBack && (
+          <Button variant="outline" onClick={onBack} className="gap-2">
+            <ArrowLeft className="w-4 h-4" />
+            Back to Dashboard
+          </Button>
+        )}
+        
         {/* Header */}
         <div className="text-center space-y-4">
           <div className="flex justify-center">
