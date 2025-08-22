@@ -331,32 +331,6 @@ A${i + 1}: ${r.answer}
               </Dialog>
               
               <Button onClick={onReset} variant="outline" className="gap-2">
-                            </>
-                          ) : (
-                            <>
-                              <Download size={16} />
-                              Download
-                            </>
-                          )}
-                        </Button>
-                      </div>
-                    </div>
-                  </DialogHeader>
-                  <ScrollArea className="h-full p-6 pt-0">
-                    <ReportPreview />
-                  </ScrollArea>
-                </DialogContent>
-              </Dialog>
-              
-              <Button 
-                onClick={() => setShowPreview(true)} 
-                className="gap-2"
-              >
-                <Download size={16} />
-                Download Report
-              </Button>
-              
-              <Button onClick={onReset} variant="outline" className="gap-2">
                 <RotateCcw size={16} />
                 New Strategy
               </Button>
