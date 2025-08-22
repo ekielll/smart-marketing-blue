@@ -1,19 +1,19 @@
 export interface StrategyTemplate {
-  id: string
-  name: string
-  description: string
-  targetIndustries: string[]
-  keyMetrics: string[]
-  recommendedChannels: string[]
-  contentPillars: string[]
+  name: stri
+  targetIndust
+  recommendedChannels
   budgetAllocation: {
-    channel: string
     percentage: number
-    description: string
   }[]
-  competitorAnalysisPoints: string[]
-  marketResearchAreas: string[]
-  implementation: {
+  marketResearchAreas: str
+    phase: string
+    priority: strin
+  }[]
+
+  {
+    name: 'B2B SaaS Strategy',
+    targetIndustries: ['SaaS', 
+      'Monthly Recu
     phase: string
     duration: string
     priority: string
@@ -30,193 +30,193 @@ export const strategyTemplates: StrategyTemplate[] = [
     keyMetrics: [
       'Monthly Recurring Revenue (MRR)',
       'Customer Acquisition Cost (CAC)',
-      'Lifetime Value (LTV)',
-      'Lead-to-Customer Conversion Rate',
-      'Free Trial to Paid Conversion',
-      'Churn Rate'
-    ],
-    recommendedChannels: [
-      'LinkedIn Advertising',
-      'Google Ads (Search & Display)',
-      'Content Marketing',
-      'Email Marketing',
-      'Webinars & Events',
-      'Industry Publications'
-    ],
-    contentPillars: [
-      'Industry Insights & Trends',
-      'Thought Leadership',
       'Product Education',
-      'Case Studies & Success Stories',
       'Technical Resources'
-    ],
     budgetAllocation: [
-      { channel: 'LinkedIn Ads', percentage: 30, description: 'Target decision-makers and key stakeholders' },
-      { channel: 'Content Marketing', percentage: 25, description: 'Build authority and drive organic traffic' },
-      { channel: 'Google Ads', percentage: 20, description: 'Capture high-intent search traffic' },
-      { channel: 'Email Marketing', percentage: 15, description: 'Nurture leads through sales funnel' },
-      { channel: 'Events & Webinars', percentage: 10, description: 'Build relationships and demonstrate expertise' }
+      { channel: '
+      
     ],
-    competitorAnalysisPoints: [
-      'Pricing strategy analysis',
-      'Feature comparison and positioning',
+      'Pricing strategy analy
       'Content marketing strategies',
-      'Sales process and free trial offerings',
-      'Partnership and integration strategies'
-    ],
-    marketResearchAreas: [
-      'Industry pain points and challenges',
-      'Buying process and decision criteria',
-      'Budget allocation trends',
-      'Technology adoption patterns',
-      'Regulatory and compliance requirements',
-      'Market size and growth projections'
-    ],
+      'Partnership and int
+    marketResearchAreas:
+      'Buying process and 
+      'Technology adoption pa
+      
     implementation: [
-      {
-        phase: 'Foundation (Month 1-2)',
-        duration: '2 months',
+        phase: 'Foundation (Month 1
         priority: 'High',
-        actions: [
-          'Set up analytics and tracking',
-          'Optimize website for conversions',
+          'Set up analytic
           'Create core content assets',
-          'Implement lead scoring system'
         ]
-      },
-      {
-        phase: 'Acquisition (Month 3-6)',
-        duration: '4 months',
-        priority: 'High',
+      
+        duration: '4 mo
         actions: [
-          'Launch LinkedIn ad campaigns',
           'Start Google Ads campaigns',
-          'Begin content marketing program',
           'Set up email nurture sequences'
-        ]
       },
-      {
         phase: 'Optimization (Month 7-12)',
-        duration: '6 months',
-        priority: 'Medium',
-        actions: [
-          'A/B test ad creatives and landing pages',
-          'Expand to new channels based on performance',
-          'Implement account-based marketing',
-          'Scale successful campaigns'
+      
+          'A/B test ad creative
+          'Implement account-based
         ]
-      }
     ]
-  },
   {
-    id: 'ecommerce-retail',
     name: 'E-commerce & Retail Strategy',
-    description: 'Comprehensive approach for online and physical retail businesses',
-    targetIndustries: ['E-commerce', 'Retail', 'Fashion', 'Consumer Goods', 'Electronics'],
-    keyMetrics: [
+    ta
       'Revenue Growth',
-      'Average Order Value (AOV)',
       'Conversion Rate',
-      'Customer Acquisition Cost (CAC)',
       'Return on Ad Spend (ROAS)',
-      'Cart Abandonment Rate'
     ],
-    recommendedChannels: [
       'Facebook & Instagram Ads',
-      'Google Shopping Ads',
       'Email Marketing',
-      'Influencer Marketing',
       'Amazon Marketing',
-      'TikTok Advertising'
     ],
-    contentPillars: [
-      'Product Showcases & Reviews',
-      'User-Generated Content',
-      'Lifestyle & Inspiration',
-      'Educational Content',
+      'Product Showca
+      '
       'Behind-the-Scenes Content'
-    ],
     budgetAllocation: [
-      { channel: 'Facebook/Instagram Ads', percentage: 35, description: 'Visual product advertising and retargeting' },
-      { channel: 'Google Shopping', percentage: 25, description: 'Capture high-intent shoppers' },
-      { channel: 'Email Marketing', percentage: 15, description: 'Customer retention and upselling' },
-      { channel: 'Influencer Marketing', percentage: 15, description: 'Build brand awareness and social proof' },
-      { channel: 'Amazon/Marketplace Ads', percentage: 10, description: 'Reach customers on their platforms' }
+      { channel: 'Google 
+      { channel: '
     ],
-    competitorAnalysisPoints: [
       'Product pricing and positioning',
-      'Social media presence and engagement',
       'Customer review strategies',
-      'Promotional and discount strategies',
       'Shipping and return policies',
-      'Brand partnerships and collaborations'
     ],
-    marketResearchAreas: [
-      'Consumer shopping behaviors',
-      'Seasonal trends and patterns',
-      'Price sensitivity analysis',
-      'Product feature preferences',
+      'C
+      '
       'Brand loyalty factors',
-      'Mobile vs desktop shopping habits'
     ],
-    implementation: [
       {
-        phase: 'Setup (Month 1)',
-        duration: '1 month',
-        priority: 'High',
+        duration: 
         actions: [
-          'Optimize product listings and descriptions',
           'Set up conversion tracking',
-          'Create branded social media content',
-          'Implement email capture strategies'
-        ]
+          'Implement email capture strategie
       },
-      {
-        phase: 'Launch (Month 2-4)',
-        duration: '3 months',
-        priority: 'High',
-        actions: [
-          'Start Facebook/Instagram campaigns',
-          'Launch Google Shopping ads',
+        p
+        
+       
           'Begin influencer outreach',
-          'Implement email marketing campaigns'
         ]
-      },
       {
-        phase: 'Scale (Month 5-12)',
-        duration: '8 months',
-        priority: 'Medium',
+        duration: 
         actions: [
-          'Expand to additional platforms',
           'Optimize for mobile experience',
-          'Implement loyalty programs',
-          'Scale winning campaigns and products'
-        ]
+          'Scale winning campaigns and product
       }
-    ]
   },
-  {
-    id: 'local-services',
-    name: 'Local Services Strategy',
-    description: 'Location-based marketing for service businesses',
-    targetIndustries: ['Healthcare', 'Legal', 'Home Services', 'Restaurants', 'Professional Services'],
-    keyMetrics: [
-      'Local Search Rankings',
-      'Website Traffic from Local Area',
-      'Phone Calls Generated',
-      'Online Reviews & Ratings',
-      'Foot Traffic (for physical locations)',
+    id:
+    d
+    
+   
+      'Online Reviews & Rat
       'Local Market Share'
-    ],
     recommendedChannels: [
-      'Google My Business',
       'Local SEO',
-      'Facebook Local Ads',
-      'Nextdoor Advertising',
-      'Local Directory Listings',
-      'Community Sponsorships'
-    ],
+      'Nextdoor A
+      'Community Sponso
     contentPillars: [
+      'Service Education
+      'Behind-the-Scenes',
+    ],
+      { channel: 'Google Ads 
+      
+      { channel: 'Communit
+    competitorAnalysisPoints: [
+      'Review quality and qu
+      'Community involve
+      'Local partnership stra
+    marketResearchAreas: 
+      'Service demand patt
+      
+      'Local economic
+    implementation: [
+        phase: 'Local Foundatio
+        priority: 'High',
+          'Optimize Google M
+          'Set up review manageme
+      
+      {
+        duration: '4 months',
+        actions: [
+          'Start Facebook local advertising',
+          'Establish community partnerships'
+      },
+      
+        priority: 'Medium',
+          'Sponsor local events and orga
+          'Build referral partner network',
+        ]
+    ]
+  {
+    name: 'Professional Services Strategy',
+    ta
+      'Qualified Lead Gene
+      'Client Lifetime Value',
+      'Thought Leadership Metrics',
+    ],
+      'LinkedIn Marketing',
+      'Speaking Engagements',
+      'Content Marketing',
+    ],
+      'Industry Exper
+      '
+      'Client Success Stories'
+    budgetAllocation: [
+      { channel: 'Content
+      { channel: '
+    ],
+      'Service offerings and specializa
+      'Client testimonials and case studies',
+      'Industry partnerships',
+    ],
+      'I
+      '
+      'Service delivery preferences'
+    ],
+      {
+        duration: 
+        actions: [
+          'Create cornerstone content p
+          'Identify speaking opportuni
+      },
+        p
+        
+       
+          'Apply for speaking opport
+        ]
+      {
+        duration: 
+        actions: [
+          'Pursue media coverage and awards
+          'Scale successful lead genera
+      }
+  }
+
+  con
+    
+   
+  )
+
+  return strategyTemplates.find(template => template.id === id)
+
+  const templates
+}
+export const getAllTemplates = (): Strat
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
       'Local Community Content',
       'Service Education',
       'Customer Testimonials',
@@ -383,11 +383,6 @@ export const getTemplatesByIndustry = (industry: string): StrategyTemplate[] => 
 
 export const getTemplateById = (id: string): StrategyTemplate | undefined => {
   return strategyTemplates.find(template => template.id === id)
-}
-
-export const getRecommendedTemplate = (industry: string): StrategyTemplate | undefined => {
-  const templates = getTemplatesByIndustry(industry)
-  return templates.length > 0 ? templates[0] : undefined
 }
 
 export const getAllTemplates = (): StrategyTemplate[] => {
