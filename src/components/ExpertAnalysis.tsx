@@ -2,8 +2,9 @@ import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
 import { Badge } from '@/components/ui/badge'
-import { Brain, TrendUp, Users, Megaphone, MagnifyingGlass, CheckCircle } from '@phosphor-icons/react'
+import { Brain, TrendUp, Users, Megaphone, MagnifyingGlass, CheckCircle, Eye, BarChart3 } from '@phosphor-icons/react'
 import { CompanyInfo, InterviewResponse, ExpertAnalysis as ExpertAnalysisType } from '../App'
+import { getRecommendedTemplate } from '../lib/strategyTemplates'
 import { toast } from 'sonner'
 
 interface ExpertAnalysisProps {
@@ -18,6 +19,18 @@ const experts = [
     icon: TrendUp,
     description: 'Analyzing target audience and market positioning',
     color: 'text-blue-600'
+  },
+  {
+    name: 'Competitor Analyst',
+    icon: Eye,
+    description: 'Researching competitive landscape and opportunities',
+    color: 'text-red-600'
+  },
+  {
+    name: 'Market Researcher',
+    icon: BarChart3,
+    description: 'Gathering industry insights and market data',
+    color: 'text-indigo-600'
   },
   {
     name: 'Social Media Guru',
@@ -63,9 +76,21 @@ Interview Conversation:
 ${conversationContext}
 `
 
+    // Get industry-specific template if available
+    const strategyTemplate = getRecommendedTemplate(companyInfo.industry)
+    const templateContext = strategyTemplate ? `
+
+Industry Best Practice Template: ${strategyTemplate.name}
+- Target Metrics: ${strategyTemplate.keyMetrics.join(', ')}
+- Recommended Channels: ${strategyTemplate.recommendedChannels.join(', ')}
+- Content Pillars: ${strategyTemplate.contentPillars.join(', ')}
+- Key Competitor Analysis Areas: ${strategyTemplate.competitorAnalysisPoints.join(', ')}
+- Market Research Focus: ${strategyTemplate.marketResearchAreas.join(', ')}
+` : ''
+
     const expertPromises = experts.map(async (expert, index) => {
       // Simulate processing time for better UX
-      await new Promise(resolve => setTimeout(resolve, (index + 1) * 1500))
+      await new Promise(resolve => setTimeout(resolve, (index + 1) * 1000))
 
       let prompt = ''
       let expertKey = ''
@@ -75,7 +100,7 @@ ${conversationContext}
           expertKey = 'marketAnalyst'
           prompt = spark.llmPrompt`You are a senior market analyst. Based on this company information and interview:
 
-${baseContext}
+${baseContext}${templateContext}
 
 Provide a comprehensive market analysis including:
 1. Target audience definition (demographics, psychographics, pain points)
@@ -83,23 +108,71 @@ Provide a comprehensive market analysis including:
 3. Competitive advantages to leverage
 4. Market opportunities and threats
 5. Customer persona development
+6. Industry-specific best practices and benchmarks
+
+${strategyTemplate ? `Use the industry template insights to provide specific recommendations for the ${companyInfo.industry} sector.` : ''}
 
 Write in a professional but accessible tone. Be specific and actionable.`
+          break
+
+        case 'Competitor Analyst':
+          expertKey = 'competitorAnalyst'
+          prompt = spark.llmPrompt`You are a competitive intelligence expert. Based on this company information and interview:
+
+${baseContext}${templateContext}
+
+Provide a detailed competitor analysis including:
+1. Key direct and indirect competitors in the ${companyInfo.industry} space
+2. Competitive positioning and differentiation opportunities
+3. Competitor pricing strategies and value propositions
+4. Marketing tactics and channels competitors are using successfully
+5. Gaps in the market that can be exploited
+6. Competitive threats and defensive strategies
+7. Benchmarking recommendations for performance metrics
+
+${strategyTemplate ? `Focus on the competitive analysis areas highlighted in the ${strategyTemplate.name} framework.` : ''}
+
+Be specific about actionable competitive advantages and defensive strategies.`
+          break
+
+        case 'Market Researcher':
+          expertKey = 'marketResearcher'
+          prompt = spark.llmPrompt`You are a market research specialist. Based on this company information and interview:
+
+${baseContext}${templateContext}
+
+Provide comprehensive market research insights including:
+1. Market size, growth trends, and projections for ${companyInfo.industry}
+2. Customer behavior patterns and buying criteria
+3. Industry trends and emerging opportunities
+4. Regulatory or external factors affecting the market
+5. Geographic market considerations and expansion opportunities
+6. Technology and innovation trends impacting the industry
+7. Market segmentation and niche opportunities
+8. Seasonal patterns and market cycles
+
+${strategyTemplate ? `Incorporate the market research focus areas from the ${strategyTemplate.name} template.` : ''}
+
+Provide data-driven insights with specific implications for strategy development.`
           break
 
         case 'Social Media Guru':
           expertKey = 'socialMediaGuru'
           prompt = spark.llmPrompt`You are a social media marketing expert. Based on this company information and interview:
 
-${baseContext}
+${baseContext}${templateContext}
 
 Create a social media strategy including:
-1. Recommended platforms and why
+1. Recommended platforms and why (based on target audience)
 2. Content themes and posting frequency
-3. Engagement strategies
-4. Visual brand guidelines
-5. Community building approaches
-6. Performance metrics to track
+3. Engagement strategies and community building
+4. Visual brand guidelines and content style
+5. Influencer and partnership opportunities
+6. Social commerce and conversion strategies
+7. Performance metrics to track
+8. Crisis management and brand protection
+
+${strategyTemplate ? `Align recommendations with the content pillars and channels from the ${strategyTemplate.name} framework.` : ''}
 
 Focus on platforms and strategies that match their audience and resources.`
           break
@@ -108,35 +181,42 @@ Focus on platforms and strategies that match their audience and resources.`
           expertKey = 'advertisingPro'
           prompt = spark.llmPrompt`You are a digital advertising strategist. Based on this company information and interview:
 
-${baseContext}
+${baseContext}${templateContext}
 
 Develop an advertising strategy including:
-1. Recommended advertising channels (Google Ads, Facebook, LinkedIn, etc.)
-2. Budget allocation suggestions by channel
+1. Recommended advertising channels with specific rationale
+2. Budget allocation suggestions by channel with percentages
 3. Target audience segments for each channel
 4. Ad copy examples and creative direction
 5. Campaign objectives and KPIs
 6. Testing and optimization strategies
+7. Seasonal campaign opportunities
+8. Attribution and measurement setup
 
-Provide specific, actionable recommendations with reasoning.`
+${strategyTemplate ? `Use the budget allocation framework from the ${strategyTemplate.name} template as a starting point.` : ''}
+
+Provide specific, actionable recommendations with budget ranges and expected ROI.`
           break
 
         case 'SEO Expert':
           expertKey = 'seoExpert'
           prompt = spark.llmPrompt`You are an SEO specialist. Based on this company information and interview:
 
-${baseContext}
+${baseContext}${templateContext}
 
 Create an SEO strategy including:
-1. Primary and secondary keyword targets
-2. Content marketing opportunities
-3. Technical SEO recommendations
+1. Primary and secondary keyword targets with search volumes
+2. Content marketing opportunities and content gaps
+3. Technical SEO recommendations and website optimization
 4. Local SEO strategies (if applicable)
-5. Link building opportunities
-6. Competitor analysis insights
-7. Content calendar suggestions
+5. Link building opportunities and outreach strategies
+6. Competitor SEO analysis and content gaps
+7. Content calendar suggestions with topic clusters
+8. Performance tracking and KPI recommendations
 
-Focus on keywords and strategies that will drive qualified traffic.`
+${strategyTemplate ? `Incorporate SEO best practices specific to the ${strategyTemplate.name} framework.` : ''}
+
+Focus on keywords and strategies that will drive qualified traffic and conversions.`
           break
       }
 
@@ -149,7 +229,7 @@ Focus on keywords and strategies that will drive qualified traffic.`
         }))
         
         setCompletedExperts(prev => [...prev, expert.name])
-        setProgress(prev => prev + 25)
+        setProgress(prev => prev + (100 / experts.length))
         
         return { [expertKey]: analysis }
       } catch (error) {
@@ -163,7 +243,7 @@ Focus on keywords and strategies that will drive qualified traffic.`
         }))
         
         setCompletedExperts(prev => [...prev, expert.name])
-        setProgress(prev => prev + 25)
+        setProgress(prev => prev + (100 / experts.length))
         
         return { [expertKey]: fallbackAnalysis }
       }
@@ -177,7 +257,9 @@ Focus on keywords and strategies that will drive qualified traffic.`
         marketAnalyst: analysisResults.marketAnalyst || '',
         socialMediaGuru: analysisResults.socialMediaGuru || '',
         advertisingPro: analysisResults.advertisingPro || '',
-        seoExpert: analysisResults.seoExpert || ''
+        seoExpert: analysisResults.seoExpert || '',
+        competitorAnalyst: analysisResults.competitorAnalyst || '',
+        marketResearcher: analysisResults.marketResearcher || ''
       }
       toast.success('All expert analyses complete! Generating your marketing blueprint.')
       onComplete(finalAnalysis)
@@ -213,7 +295,7 @@ Focus on keywords and strategies that will drive qualified traffic.`
         </div>
 
         {/* Expert Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {experts.map((expert) => {
             const isCompleted = completedExperts.includes(expert.name)
             const isWorking = !isCompleted && completedExperts.length === experts.indexOf(expert)

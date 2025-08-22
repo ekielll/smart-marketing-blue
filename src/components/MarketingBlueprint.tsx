@@ -26,10 +26,13 @@ import {
   FloppyDisk,
   Envelope,
   Calendar,
-  Phone
+  Phone,
+  BarChart3,
+  BookOpen
 } from '@phosphor-icons/react'
 import { CompanyInfo, InterviewResponse, ExpertAnalysis } from '../App'
 import { downloadPDFReport, shareViaEmail, generateCalendarEvent, ReportData } from '../lib/reportUtils'
+import { getRecommendedTemplate, getAllTemplates } from '../lib/strategyTemplates'
 import { toast } from 'sonner'
 
 interface MarketingBlueprintProps {
@@ -52,11 +55,15 @@ export default function MarketingBlueprint({
   const [isDownloading, setIsDownloading] = useState(false)
   const [showEmailDialog, setShowEmailDialog] = useState(false)
   const [showCalendarDialog, setShowCalendarDialog] = useState(false)
+  const [showTemplateDialog, setShowTemplateDialog] = useState(false)
   const [emailForm, setEmailForm] = useState({ 
     to: companyInfo.email, 
     subject: `Marketing Strategy for ${companyInfo.name}`,
-    message: `Hi ${companyInfo.contactName},\n\nAttached is your custom marketing strategy blueprint for ${companyInfo.name}. This comprehensive plan includes market analysis, social media strategy, advertising recommendations, and SEO tactics tailored specifically to your business.\n\nPlease review the recommendations and let me know if you have any questions.\n\nBest regards,\nMarketing Strategy Team`
+    message: `Hi ${companyInfo.contactName},\n\nAttached is your custom marketing strategy blueprint for ${companyInfo.name}. This comprehensive plan includes market analysis, competitor insights, market research, social media strategy, advertising recommendations, and SEO tactics tailored specifically to your business.\n\nPlease review the recommendations and let me know if you have any questions.\n\nBest regards,\nMarketing Strategy Team`
   })
+
+  const recommendedTemplate = getRecommendedTemplate(companyInfo.industry)
+  const allTemplates = getAllTemplates()
 
   const downloadPDF = async () => {
     setIsDownloading(true)
@@ -179,6 +186,8 @@ export default function MarketingBlueprint({
             <h3 className="font-semibold text-green-900 mb-2">Strategy Components</h3>
             <div className="text-sm text-green-800 space-y-1">
               <p>✓ Market Analysis & Positioning</p>
+              <p>✓ Competitive Intelligence</p>
+              <p>✓ Market Research & Trends</p>
               <p>✓ Social Media Strategy</p>
               <p>✓ Advertising & Promotion Plan</p>
               <p>✓ SEO & Content Strategy</p>
@@ -197,6 +206,36 @@ export default function MarketingBlueprint({
             <p key={index} className="mb-3">{line}</p>
           ))}
           {analysis.marketAnalyst.split('\n').length > 6 && (
+            <p className="text-gray-500 italic">... [continued in full report]</p>
+          )}
+        </div>
+      </div>
+
+      {/* Competitive Analysis Section */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+          COMPETITIVE ANALYSIS & INTELLIGENCE
+        </h2>
+        <div className="prose prose-sm max-w-none text-gray-700">
+          {analysis.competitorAnalyst.split('\n').slice(0, 6).map((line, index) => (
+            <p key={index} className="mb-3">{line}</p>
+          ))}
+          {analysis.competitorAnalyst.split('\n').length > 6 && (
+            <p className="text-gray-500 italic">... [continued in full report]</p>
+          )}
+        </div>
+      </div>
+
+      {/* Market Research Section */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+          MARKET RESEARCH & INDUSTRY INSIGHTS
+        </h2>
+        <div className="prose prose-sm max-w-none text-gray-700">
+          {analysis.marketResearcher.split('\n').slice(0, 6).map((line, index) => (
+            <p key={index} className="mb-3">{line}</p>
+          ))}
+          {analysis.marketResearcher.split('\n').length > 6 && (
             <p className="text-gray-500 italic">... [continued in full report]</p>
           )}
         </div>
@@ -297,6 +336,16 @@ export default function MarketingBlueprint({
                 {companyInfo.industry}
               </Badge>
               
+              <Button 
+                onClick={() => setShowTemplateDialog(true)} 
+                variant="outline" 
+                size="sm" 
+                className="gap-2"
+              >
+                <BookOpen size={16} />
+                Templates
+              </Button>
+              
               {onSave && (
                 <Button onClick={onSave} variant="outline" size="sm" className="gap-2">
                   <FloppyDisk size={16} />
@@ -367,8 +416,35 @@ export default function MarketingBlueprint({
       </div>
 
       <div className="max-w-6xl mx-auto p-6">
+        {/* Industry Template Alert */}
+        {recommendedTemplate && (
+          <Card className="mb-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-blue-200">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <BookOpen size={24} className="text-blue-600" />
+                <div className="flex-1">
+                  <h3 className="font-semibold text-blue-900">
+                    Strategy Based on {recommendedTemplate.name}
+                  </h3>
+                  <p className="text-sm text-blue-700">
+                    {recommendedTemplate.description} - Our analysis incorporates industry best practices and benchmarks.
+                  </p>
+                </div>
+                <Button 
+                  onClick={() => setShowTemplateDialog(true)}
+                  variant="outline" 
+                  size="sm"
+                  className="border-blue-300 text-blue-700 hover:bg-blue-100"
+                >
+                  View Details
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+        
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-          <TabsList className="grid grid-cols-5 w-full">
+          <TabsList className="grid grid-cols-7 w-full">
             <TabsTrigger value="overview" className="gap-2">
               <Target size={16} />
               Overview
@@ -376,6 +452,14 @@ export default function MarketingBlueprint({
             <TabsTrigger value="market" className="gap-2">
               <TrendUp size={16} />
               Market
+            </TabsTrigger>
+            <TabsTrigger value="competitive" className="gap-2">
+              <Eye size={16} />
+              Competitive
+            </TabsTrigger>
+            <TabsTrigger value="research" className="gap-2">
+              <BarChart3 size={16} />
+              Research
             </TabsTrigger>
             <TabsTrigger value="social" className="gap-2">
               <Users size={16} />
@@ -409,6 +493,22 @@ export default function MarketingBlueprint({
                     </CardContent>
                   </Card>
                   
+                  <Card className="bg-red-50 border-red-200">
+                    <CardContent className="p-4 text-center">
+                      <Eye size={24} className="text-red-600 mx-auto mb-2" />
+                      <h3 className="font-semibold text-red-900">Competitive Analysis</h3>
+                      <p className="text-sm text-red-700">Competitor insights & differentiation</p>
+                    </CardContent>
+                  </Card>
+                  
+                  <Card className="bg-indigo-50 border-indigo-200">
+                    <CardContent className="p-4 text-center">
+                      <BarChart3 size={24} className="text-indigo-600 mx-auto mb-2" />
+                      <h3 className="font-semibold text-indigo-900">Market Research</h3>
+                      <p className="text-sm text-indigo-700">Industry trends & opportunities</p>
+                    </CardContent>
+                  </Card>
+                  
                   <Card className="bg-purple-50 border-purple-200">
                     <CardContent className="p-4 text-center">
                       <Users size={24} className="text-purple-600 mx-auto mb-2" />
@@ -416,7 +516,9 @@ export default function MarketingBlueprint({
                       <p className="text-sm text-purple-700">Content & platform plan</p>
                     </CardContent>
                   </Card>
-                  
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
                   <Card className="bg-green-50 border-green-200">
                     <CardContent className="p-4 text-center">
                       <Megaphone size={24} className="text-green-600 mx-auto mb-2" />
@@ -496,6 +598,38 @@ export default function MarketingBlueprint({
               <CardContent>
                 <div className="prose max-w-none">
                   {formatAnalysisContent(analysis.marketAnalyst)}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="competitive" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-3">
+                  <Eye size={24} className="text-red-600" />
+                  Competitive Analysis & Intelligence
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="prose max-w-none">
+                  {formatAnalysisContent(analysis.competitorAnalyst)}
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="research" className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-3">
+                  <BarChart3 size={24} className="text-indigo-600" />
+                  Market Research & Industry Insights
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="prose max-w-none">
+                  {formatAnalysisContent(analysis.marketResearcher)}
                 </div>
               </CardContent>
             </Card>
@@ -650,6 +784,139 @@ export default function MarketingBlueprint({
               </Button>
             </div>
           </div>
+        </DialogContent>
+      </Dialog>
+      {/* Strategy Template Dialog */}
+      <Dialog open={showTemplateDialog} onOpenChange={setShowTemplateDialog}>
+        <DialogContent className="max-w-4xl h-[90vh]">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <BookOpen size={20} className="text-accent" />
+              Strategy Templates & Best Practices
+            </DialogTitle>
+          </DialogHeader>
+          <ScrollArea className="h-full pr-4">
+            <div className="space-y-6">
+              {recommendedTemplate && (
+                <Card className="border-primary">
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-3">
+                      <Badge variant="default" className="px-3 py-1">Recommended</Badge>
+                      <span>{recommendedTemplate.name}</span>
+                    </CardTitle>
+                    <p className="text-muted-foreground">{recommendedTemplate.description}</p>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <h4 className="font-semibold mb-2">Key Metrics</h4>
+                        <ul className="text-sm space-y-1">
+                          {recommendedTemplate.keyMetrics.map((metric, idx) => (
+                            <li key={idx} className="flex items-center gap-2">
+                              <CheckCircle size={16} className="text-green-600" />
+                              {metric}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div>
+                        <h4 className="font-semibold mb-2">Recommended Channels</h4>
+                        <ul className="text-sm space-y-1">
+                          {recommendedTemplate.recommendedChannels.map((channel, idx) => (
+                            <li key={idx} className="flex items-center gap-2">
+                              <CheckCircle size={16} className="text-blue-600" />
+                              {channel}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <h4 className="font-semibold mb-2">Budget Allocation Framework</h4>
+                      <div className="space-y-2">
+                        {recommendedTemplate.budgetAllocation.map((allocation, idx) => (
+                          <div key={idx} className="flex items-center justify-between p-2 bg-muted/50 rounded">
+                            <span className="font-medium">{allocation.channel}</span>
+                            <div className="text-right">
+                              <span className="font-semibold text-primary">{allocation.percentage}%</span>
+                              <p className="text-xs text-muted-foreground">{allocation.description}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div>
+                      <h4 className="font-semibold mb-2">Implementation Phases</h4>
+                      <div className="space-y-3">
+                        {recommendedTemplate.implementation.map((phase, idx) => (
+                          <Card key={idx} className="p-3">
+                            <div className="flex items-center justify-between mb-2">
+                              <h5 className="font-medium">{phase.phase}</h5>
+                              <Badge variant={
+                                phase.priority === 'High' ? 'destructive' : 
+                                phase.priority === 'Medium' ? 'default' : 'secondary'
+                              }>
+                                {phase.priority} Priority
+                              </Badge>
+                            </div>
+                            <p className="text-sm text-muted-foreground mb-2">Duration: {phase.duration}</p>
+                            <ul className="text-sm space-y-1">
+                              {phase.actions.map((action, actionIdx) => (
+                                <li key={actionIdx} className="flex items-start gap-2">
+                                  <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                                  {action}
+                                </li>
+                              ))}
+                            </ul>
+                          </Card>
+                        ))}
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
+              <div>
+                <h3 className="text-lg font-semibold mb-4">All Available Templates</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {allTemplates.map((template) => (
+                    <Card key={template.id} className={template.id === recommendedTemplate?.id ? 'border-primary bg-primary/5' : ''}>
+                      <CardHeader className="pb-3">
+                        <CardTitle className="text-base flex items-center gap-2">
+                          {template.id === recommendedTemplate?.id && (
+                            <Badge variant="outline" className="text-xs">Current</Badge>
+                          )}
+                          {template.name}
+                        </CardTitle>
+                        <p className="text-sm text-muted-foreground">{template.description}</p>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-2">
+                          <div>
+                            <span className="text-sm font-medium">Target Industries:</span>
+                            <div className="flex flex-wrap gap-1 mt-1">
+                              {template.targetIndustries.slice(0, 3).map((industry, idx) => (
+                                <Badge key={idx} variant="secondary" className="text-xs">
+                                  {industry}
+                                </Badge>
+                              ))}
+                              {template.targetIndustries.length > 3 && (
+                                <Badge variant="secondary" className="text-xs">
+                                  +{template.targetIndustries.length - 3} more
+                                </Badge>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </ScrollArea>
         </DialogContent>
       </Dialog>
     </div>

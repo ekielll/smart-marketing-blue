@@ -27,6 +27,8 @@ export type ExpertAnalysis = {
   socialMediaGuru: string
   advertisingPro: string
   seoExpert: string
+  competitorAnalyst: string
+  marketResearcher: string
 }
 
 export type CompanyStrategy = {
