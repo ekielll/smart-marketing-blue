@@ -4,6 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Separator } from '@/components/ui/separator'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { 
   Download, 
   RotateCcw, 
@@ -15,7 +17,9 @@ import {
   CheckCircle,
   Target,
   Share,
-  Printer
+  Printer,
+  Eye,
+  X
 } from '@phosphor-icons/react'
 import { CompanyInfo, InterviewResponse, ExpertAnalysis } from '../App'
 import { toast } from 'sonner'
@@ -34,8 +38,15 @@ export default function MarketingBlueprint({
   onReset 
 }: MarketingBlueprintProps) {
   const [activeTab, setActiveTab] = useState('overview')
+  const [showPreview, setShowPreview] = useState(false)
+  const [isDownloading, setIsDownloading] = useState(false)
 
-  const downloadPDF = () => {
+  const downloadPDF = async () => {
+    setIsDownloading(true)
+    
+    // Simulate processing time for better UX
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    
     // Create a comprehensive text version for now
     const reportContent = `
 MARKETING STRATEGY BLUEPRINT
@@ -81,6 +92,9 @@ A${i + 1}: ${r.answer}
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
+    
+    setIsDownloading(false)
+    setShowPreview(false)
     toast.success('Marketing strategy report downloaded successfully!')
   }
 
@@ -131,6 +145,132 @@ A${i + 1}: ${r.answer}
     })
   }
 
+  const ReportPreview = () => (
+    <div className="bg-white text-black p-8 max-w-4xl mx-auto shadow-2xl">
+      {/* Header */}
+      <div className="text-center border-b border-gray-300 pb-6 mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">MARKETING STRATEGY BLUEPRINT</h1>
+        <div className="text-gray-600 space-y-1">
+          <p className="text-xl font-semibold">{companyInfo.name}</p>
+          <p>{companyInfo.industry} Industry</p>
+          <p>Generated: {new Date().toLocaleDateString()}</p>
+        </div>
+      </div>
+
+      {/* Executive Summary */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+          EXECUTIVE SUMMARY
+        </h2>
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <div className="p-4 bg-blue-50 rounded border">
+            <h3 className="font-semibold text-blue-900 mb-2">Company Profile</h3>
+            <div className="text-sm text-blue-800 space-y-1">
+              <p><span className="font-medium">Company:</span> {companyInfo.name}</p>
+              <p><span className="font-medium">Industry:</span> {companyInfo.industry}</p>
+              <p><span className="font-medium">Contact:</span> {companyInfo.contactName}</p>
+              <p><span className="font-medium">Analysis Date:</span> {new Date().toLocaleDateString()}</p>
+            </div>
+          </div>
+          <div className="p-4 bg-green-50 rounded border">
+            <h3 className="font-semibold text-green-900 mb-2">Strategy Components</h3>
+            <div className="text-sm text-green-800 space-y-1">
+              <p>✓ Market Analysis & Positioning</p>
+              <p>✓ Social Media Strategy</p>
+              <p>✓ Advertising & Promotion Plan</p>
+              <p>✓ SEO & Content Strategy</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Market Analysis Section */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+          MARKET ANALYSIS & POSITIONING
+        </h2>
+        <div className="prose prose-sm max-w-none text-gray-700">
+          {analysis.marketAnalyst.split('\n').slice(0, 6).map((line, index) => (
+            <p key={index} className="mb-3">{line}</p>
+          ))}
+          {analysis.marketAnalyst.split('\n').length > 6 && (
+            <p className="text-gray-500 italic">... [continued in full report]</p>
+          )}
+        </div>
+      </div>
+
+      {/* Social Media Section */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+          SOCIAL MEDIA STRATEGY
+        </h2>
+        <div className="prose prose-sm max-w-none text-gray-700">
+          {analysis.socialMediaGuru.split('\n').slice(0, 6).map((line, index) => (
+            <p key={index} className="mb-3">{line}</p>
+          ))}
+          {analysis.socialMediaGuru.split('\n').length > 6 && (
+            <p className="text-gray-500 italic">... [continued in full report]</p>
+          )}
+        </div>
+      </div>
+
+      {/* Advertising Section */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+          ADVERTISING STRATEGY
+        </h2>
+        <div className="prose prose-sm max-w-none text-gray-700">
+          {analysis.advertisingPro.split('\n').slice(0, 6).map((line, index) => (
+            <p key={index} className="mb-3">{line}</p>
+          ))}
+          {analysis.advertisingPro.split('\n').length > 6 && (
+            <p className="text-gray-500 italic">... [continued in full report]</p>
+          )}
+        </div>
+      </div>
+
+      {/* SEO Section */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+          SEO STRATEGY
+        </h2>
+        <div className="prose prose-sm max-w-none text-gray-700">
+          {analysis.seoExpert.split('\n').slice(0, 6).map((line, index) => (
+            <p key={index} className="mb-3">{line}</p>
+          ))}
+          {analysis.seoExpert.split('\n').length > 6 && (
+            <p className="text-gray-500 italic">... [continued in full report]</p>
+          )}
+        </div>
+      </div>
+
+      {/* Interview Summary */}
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+          INTERVIEW INSIGHTS
+        </h2>
+        <div className="text-gray-600 text-sm">
+          <p className="mb-3">This strategy is based on {responses.length} strategic interview questions and responses.</p>
+          <div className="bg-gray-50 p-4 rounded">
+            <p className="font-medium mb-2">Key Topics Covered:</p>
+            <ul className="list-disc list-inside space-y-1">
+              <li>Business objectives and target audience</li>
+              <li>Current marketing challenges and opportunities</li>
+              <li>Competitive landscape and positioning</li>
+              <li>Budget considerations and resource allocation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="border-t border-gray-300 pt-6 text-center text-gray-500 text-sm">
+        <p>This marketing strategy blueprint was generated using AI-powered analysis.</p>
+        <p>For best results, review and adapt recommendations to your specific business context.</p>
+      </div>
+    </div>
+  )
+
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -161,11 +301,62 @@ A${i + 1}: ${r.answer}
                 <Printer size={16} />
                 Print
               </Button>
-              <Button onClick={downloadPDF} className="gap-2">
+              
+              <Button 
+                onClick={() => setShowPreview(true)} 
+                variant="outline" 
+                size="sm" 
+                className="gap-2"
+              >
+                <Eye size={16} />
+                Preview
+              </Button>
+              
+              <Dialog open={showPreview} onOpenChange={setShowPreview}>
+                <DialogContent className="max-w-5xl h-[90vh] p-0">
+                  <DialogHeader className="p-6 pb-0">
+                    <div className="flex items-center justify-between">
+                      <DialogTitle className="flex items-center gap-3">
+                        <FileText size={24} className="text-accent" />
+                        Report Preview
+                      </DialogTitle>
+                      <div className="flex items-center gap-2">
+                        <Button 
+                          onClick={downloadPDF} 
+                          size="sm" 
+                          className="gap-2"
+                          disabled={isDownloading}
+                        >
+                          {isDownloading ? (
+                            <>
+                              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                              Generating...
+                            </>
+                          ) : (
+                            <>
+                              <Download size={16} />
+                              Download
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+                  </DialogHeader>
+                  <ScrollArea className="h-full p-6 pt-0">
+                    <ReportPreview />
+                  </ScrollArea>
+                </DialogContent>
+              </Dialog>
+              
+              <Button 
+                onClick={() => setShowPreview(true)} 
+                className="gap-2"
+              >
                 <Download size={16} />
                 Download Report
               </Button>
-              <Button variant="outline" onClick={onReset} className="gap-2">
+              
+              <Button onClick={onReset} variant="outline" className="gap-2">
                 <RotateCcw size={16} />
                 New Strategy
               </Button>
