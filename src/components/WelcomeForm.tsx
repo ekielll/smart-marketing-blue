@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Phone, MessageCircle, Sparkles, ClockClockwise, Target, ArrowLeft } from '@phosphor-icons/react'
+import { Phone, ChatCircle, Sparkle, ArrowClockwise, Target, ArrowLeft } from '@phosphor-icons/react'
 import { CompanyInfo } from '../App'
 import { toast } from 'sonner'
 
@@ -52,7 +52,7 @@ export default function WelcomeForm({ onSubmit, onBack }: WelcomeFormProps) {
         <div className="text-center space-y-4">
           <div className="flex justify-center">
             <div className="p-3 bg-accent/10 rounded-full">
-              <Sparkles size={32} className="text-accent" weight="fill" />
+              <Sparkle size={32} className="text-accent" weight="fill" />
             </div>
           </div>
           <h1 className="text-4xl font-bold text-foreground">
@@ -145,7 +145,7 @@ export default function WelcomeForm({ onSubmit, onBack }: WelcomeFormProps) {
                   disabled={!isFormValid}
                   className="w-full h-12 text-lg font-semibold"
                 >
-                  <MessageCircle size={20} className="mr-2" />
+                  <ChatCircle size={20} className="mr-2" />
                   Start Smart Interview
                 </Button>
                 
@@ -175,7 +175,7 @@ export default function WelcomeForm({ onSubmit, onBack }: WelcomeFormProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
           <div className="space-y-2">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-              <ClockClockwise size={24} className="text-primary" />
+              <ArrowClockwise size={24} className="text-primary" />
             </div>
             <h3 className="font-semibold">Smart Conversation</h3>
             <p className="text-sm text-muted-foreground">
@@ -185,7 +185,7 @@ export default function WelcomeForm({ onSubmit, onBack }: WelcomeFormProps) {
           
           <div className="space-y-2">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-              <Sparkles size={24} className="text-primary" />
+              <Sparkle size={24} className="text-primary" />
             </div>
             <h3 className="font-semibold">Expert Analysis</h3>
             <p className="text-sm text-muted-foreground">

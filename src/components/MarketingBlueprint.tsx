@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { 
   Download, 
-  RotateCcw, 
+  ArrowCounterClockwise, 
   TrendUp, 
   Users, 
   Megaphone, 
@@ -27,7 +27,7 @@ import {
   Envelope,
   Calendar,
   Phone,
-  BarChart3,
+  ChartBar,
   BookOpen
 } from '@phosphor-icons/react'
 import { CompanyInfo, InterviewResponse, ExpertAnalysis } from '../App'
@@ -407,7 +407,7 @@ export default function MarketingBlueprint({
               </Dialog>
               
               <Button onClick={onReset} variant="outline" className="gap-2">
-                <RotateCcw size={16} />
+                <ArrowCounterClockwise size={16} />
                 New Strategy
               </Button>
             </div>
@@ -458,7 +458,7 @@ export default function MarketingBlueprint({
               Competitive
             </TabsTrigger>
             <TabsTrigger value="research" className="gap-2">
-              <BarChart3 size={16} />
+              <ChartBar size={16} />
               Research
             </TabsTrigger>
             <TabsTrigger value="social" className="gap-2">
@@ -503,7 +503,7 @@ export default function MarketingBlueprint({
                   
                   <Card className="bg-indigo-50 border-indigo-200">
                     <CardContent className="p-4 text-center">
-                      <BarChart3 size={24} className="text-indigo-600 mx-auto mb-2" />
+                      <ChartBar size={24} className="text-indigo-600 mx-auto mb-2" />
                       <h3 className="font-semibold text-indigo-900">Market Research</h3>
                       <p className="text-sm text-indigo-700">Industry trends & opportunities</p>
                     </CardContent>
@@ -623,7 +623,7 @@ export default function MarketingBlueprint({
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-3">
-                  <BarChart3 size={24} className="text-indigo-600" />
+                  <ChartBar size={24} className="text-indigo-600" />
                   Market Research & Industry Insights
                 </CardTitle>
               </CardHeader>

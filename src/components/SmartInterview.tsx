@@ -1,10 +1,11 @@
+/// <reference path="../types/global.d.ts" />
 import { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Textarea } from '@/components/ui/textarea'
 import { Progress } from '@/components/ui/progress'
 import { Badge } from '@/components/ui/badge'
-import { Brain, MessageCircle, Send, ArrowLeft } from '@phosphor-icons/react'
+import { Brain, ChatCircle, PaperPlaneTilt, ArrowLeft } from '@phosphor-icons/react'
 import { CompanyInfo, InterviewResponse } from '../App'
 import { toast } from 'sonner'
 
@@ -211,7 +212,7 @@ If satisfied and all areas are covered.`
                 <CardContent className="p-4">
                   <div className="flex items-start gap-3">
                     <div className="p-2 bg-primary/10 rounded-full mt-1">
-                      <MessageCircle size={16} className="text-primary" />
+                      <ChatCircle size={16} className="text-primary" />
                     </div>
                     <div className="flex-1">
                       <p className="font-medium text-foreground">{response.question}</p>
@@ -234,7 +235,7 @@ If satisfied and all areas are covered.`
           <CardContent className="p-6">
             <div className="flex items-start gap-4">
               <div className="p-3 bg-primary/10 rounded-full">
-                <MessageCircle size={20} className="text-primary" />
+                <ChatCircle size={20} className="text-primary" />
               </div>
               <div className="flex-1">
                 <p className="text-lg font-medium text-foreground mb-2">
@@ -276,7 +277,7 @@ If satisfied and all areas are covered.`
                   disabled={!currentAnswer.trim() || isLoading}
                   className="ml-4"
                 >
-                  <Send size={16} className="mr-2" />
+                  <PaperPlaneTilt size={16} className="mr-2" />
                   Send
                 </Button>
               </div>

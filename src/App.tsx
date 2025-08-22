@@ -74,22 +74,23 @@ function App() {
     const strategy: CompanyStrategy = {
       id: currentStrategyId || `strategy-${Date.now()}`,
       companyInfo,
-      interviewResponses,
+      interviewResponses: interviewResponses || [],
       analysis: expertAnalysis,
       createdAt: currentStrategyId ? 
-        strategies.find(s => s.id === currentStrategyId)?.createdAt || new Date().toISOString() :
+        (strategies || []).find(s => s.id === currentStrategyId)?.createdAt || new Date().toISOString() :
         new Date().toISOString(),
       lastModified: new Date().toISOString()
     }
 
     setStrategies(current => {
-      const existing = current.findIndex(s => s.id === strategy.id)
+      const currentStrategies = current || []
+      const existing = currentStrategies.findIndex(s => s.id === strategy.id)
       if (existing >= 0) {
-        const updated = [...current]
+        const updated = [...currentStrategies]
         updated[existing] = strategy
         return updated
       }
-      return [strategy, ...current]
+      return [strategy, ...currentStrategies]
     })
 
     setCurrentStrategyId(strategy.id)
@@ -106,7 +107,7 @@ function App() {
   }
 
   const deleteStrategy = (strategyId: string) => {
-    setStrategies(current => current.filter(s => s.id !== strategyId))
+    setStrategies(current => (current || []).filter(s => s.id !== strategyId))
     if (currentStrategyId === strategyId) {
       setCurrentStrategyId(null)
       resetApp()
@@ -135,7 +136,7 @@ function App() {
       <Toaster />
       {currentPhase === 'dashboard' && (
         <Dashboard 
-          strategies={strategies}
+          strategies={strategies || []}
           onNewStrategy={startNewStrategy}
           onLoadStrategy={loadStrategy}
           onDeleteStrategy={deleteStrategy}
@@ -160,7 +161,7 @@ function App() {
       {currentPhase === 'analysis' && (
         <ExpertAnalysis 
           companyInfo={companyInfo!}
-          responses={interviewResponses}
+          responses={interviewResponses || []}
           onComplete={handleAnalysisComplete}
         />
       )}
@@ -168,7 +169,7 @@ function App() {
       {currentPhase === 'blueprint' && (
         <MarketingBlueprint 
           companyInfo={companyInfo!}
-          responses={interviewResponses}
+          responses={interviewResponses || []}
           analysis={expertAnalysis!}
           onReset={resetApp}
           onSave={saveStrategy}

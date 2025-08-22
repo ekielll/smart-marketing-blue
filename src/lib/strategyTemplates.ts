@@ -1,19 +1,19 @@
 export interface StrategyTemplate {
-  name: stri
-  targetIndust
-  recommendedChannels
+  id: string
+  name: string
+  description: string
+  targetIndustries: string[]
+  keyMetrics: string[]
+  recommendedChannels: string[]
+  contentPillars: string[]
   budgetAllocation: {
+    channel: string
     percentage: number
+    description: string
   }[]
-  marketResearchAreas: str
-    phase: string
-    priority: strin
-  }[]
-
-  {
-    name: 'B2B SaaS Strategy',
-    targetIndustries: ['SaaS', 
-      'Monthly Recu
+  competitorAnalysisPoints: string[]
+  marketResearchAreas: string[]
+  implementation: {
     phase: string
     duration: string
     priority: string
@@ -30,193 +30,201 @@ export const strategyTemplates: StrategyTemplate[] = [
     keyMetrics: [
       'Monthly Recurring Revenue (MRR)',
       'Customer Acquisition Cost (CAC)',
-      'Product Education',
-      'Technical Resources'
-    budgetAllocation: [
-      { channel: '
-      
+      'Customer Lifetime Value (CLV)',
+      'Lead-to-Customer Conversion Rate',
+      'Trial-to-Paid Conversion Rate',
+      'Churn Rate'
     ],
-      'Pricing strategy analy
+    recommendedChannels: [
+      'Google Ads (Search & Display)',
+      'LinkedIn Marketing',
+      'Content Marketing',
+      'Email Marketing',
+      'Webinars & Product Demos',
+      'Partner Referrals'
+    ],
+    contentPillars: [
+      'Product Education',
+      'Industry Best Practices',
+      'Case Studies & Success Stories',
+      'Technical Resources',
+      'Thought Leadership'
+    ],
+    budgetAllocation: [
+      { channel: 'Google Ads', percentage: 35, description: 'Capture high-intent search traffic' },
+      { channel: 'LinkedIn Marketing', percentage: 25, description: 'Target decision-makers and influencers' },
+      { channel: 'Content Marketing', percentage: 20, description: 'Build authority and organic traffic' },
+      { channel: 'Email Marketing', percentage: 10, description: 'Nurture leads through sales funnel' },
+      { channel: 'Events & Webinars', percentage: 10, description: 'Demonstrate product value and expertise' }
+    ],
+    competitorAnalysisPoints: [
+      'Feature comparison and positioning',
+      'Pricing strategy analysis',
       'Content marketing strategies',
-      'Partnership and int
-    marketResearchAreas:
-      'Buying process and 
-      'Technology adoption pa
-      
+      'Partnership and integration ecosystem',
+      'Customer testimonials and case studies',
+      'Sales process and demo approach'
+    ],
+    marketResearchAreas: [
+      'Target persona pain points and motivations',
+      'Buying process and decision criteria',
+      'Technology adoption patterns',
+      'Industry compliance requirements',
+      'Integration and scalability needs',
+      'Budget allocation and procurement processes'
+    ],
     implementation: [
-        phase: 'Foundation (Month 1
+      {
+        phase: 'Foundation (Month 1-2)',
+        duration: '2 months',
         priority: 'High',
-          'Set up analytic
-          'Create core content assets',
-        ]
-      
-        duration: '4 mo
         actions: [
-          'Start Google Ads campaigns',
-          'Set up email nurture sequences'
-      },
-        phase: 'Optimization (Month 7-12)',
-      
-          'A/B test ad creative
-          'Implement account-based
+          'Set up analytics and conversion tracking',
+          'Create core landing pages for key features',
+          'Develop lead magnets (whitepapers, tools)',
+          'Create core content assets',
+          'Set up email marketing automation'
         ]
+      },
+      {
+        phase: 'Growth Acceleration (Month 3-6)',
+        duration: '4 months',
+        priority: 'High',
+        actions: [
+          'Launch Google Ads campaigns',
+          'Start LinkedIn advertising',
+          'Begin content marketing program',
+          'Set up email nurture sequences',
+          'Create product demo videos'
+        ]
+      },
+      {
+        phase: 'Optimization (Month 7-12)',
+        duration: '6 months',
+        priority: 'Medium',
+        actions: [
+          'A/B test ad creative and landing pages',
+          'Implement account-based marketing',
+          'Launch partner referral program',
+          'Create advanced content series',
+          'Optimize conversion funnel'
+        ]
+      }
     ]
+  },
   {
+    id: 'ecommerce-retail',
     name: 'E-commerce & Retail Strategy',
-    ta
+    description: 'Multi-channel approach for online retailers to maximize sales and customer lifetime value',
+    targetIndustries: ['E-commerce', 'Retail', 'Fashion', 'Consumer Goods', 'Marketplace Sellers'],
+    keyMetrics: [
       'Revenue Growth',
       'Conversion Rate',
+      'Average Order Value (AOV)',
       'Return on Ad Spend (ROAS)',
+      'Customer Acquisition Cost (CAC)',
+      'Customer Lifetime Value (CLV)'
     ],
+    recommendedChannels: [
+      'Google Shopping & Search Ads',
       'Facebook & Instagram Ads',
       'Email Marketing',
+      'Influencer Partnerships',
       'Amazon Marketing',
+      'Retargeting Campaigns'
     ],
-      'Product Showca
-      '
+    contentPillars: [
+      'Product Showcases',
+      'Lifestyle & Inspiration',
+      'Customer Reviews & UGC',
+      'Educational Content',
       'Behind-the-Scenes Content'
-    budgetAllocation: [
-      { channel: 'Google 
-      { channel: '
     ],
+    budgetAllocation: [
+      { channel: 'Google Ads', percentage: 30, description: 'Capture purchase-intent searches' },
+      { channel: 'Facebook & Instagram Ads', percentage: 25, description: 'Visual product discovery and retargeting' },
+      { channel: 'Email Marketing', percentage: 15, description: 'Customer retention and repeat purchases' },
+      { channel: 'Influencer Marketing', percentage: 15, description: 'Build brand awareness and social proof' },
+      { channel: 'Amazon Advertising', percentage: 10, description: 'Marketplace visibility and sales' },
+      { channel: 'Content Creation', percentage: 5, description: 'Product photography and video content' }
+    ],
+    competitorAnalysisPoints: [
       'Product pricing and positioning',
+      'Social media presence and engagement',
       'Customer review strategies',
       'Shipping and return policies',
+      'Website user experience',
+      'Promotional strategies and discounts'
     ],
-      'C
-      '
+    marketResearchAreas: [
+      'Consumer shopping behavior trends',
+      'Price sensitivity and positioning',
+      'Seasonal demand patterns',
+      'Product discovery preferences',
       'Brand loyalty factors',
+      'Mobile shopping experience expectations'
     ],
+    implementation: [
       {
-        duration: 
+        phase: 'Foundation Setup (Month 1-2)',
+        duration: '2 months',
+        priority: 'High',
         actions: [
-          'Set up conversion tracking',
-          'Implement email capture strategie
-      },
-        p
-        
-       
-          'Begin influencer outreach',
+          'Set up conversion tracking and analytics',
+          'Optimize product pages for conversions',
+          'Create Google Shopping feed',
+          'Implement email capture strategies',
+          'Set up retargeting pixels'
         ]
+      },
       {
-        duration: 
+        phase: 'Channel Expansion (Month 3-6)',
+        duration: '4 months',
+        priority: 'High',
+        actions: [
+          'Launch Google Shopping campaigns',
+          'Start Facebook and Instagram advertising',
+          'Begin email marketing campaigns',
+          'Begin influencer outreach',
+          'Set up Amazon seller account and advertising'
+        ]
+      },
+      {
+        phase: 'Optimization & Scale (Month 7-12)',
+        duration: '6 months',
+        priority: 'Medium',
         actions: [
           'Optimize for mobile experience',
-          'Scale winning campaigns and product
-      }
-  },
-    id:
-    d
-    
-   
-      'Online Reviews & Rat
-      'Local Market Share'
-    recommendedChannels: [
-      'Local SEO',
-      'Nextdoor A
-      'Community Sponso
-    contentPillars: [
-      'Service Education
-      'Behind-the-Scenes',
-    ],
-      { channel: 'Google Ads 
-      
-      { channel: 'Communit
-    competitorAnalysisPoints: [
-      'Review quality and qu
-      'Community involve
-      'Local partnership stra
-    marketResearchAreas: 
-      'Service demand patt
-      
-      'Local economic
-    implementation: [
-        phase: 'Local Foundatio
-        priority: 'High',
-          'Optimize Google M
-          'Set up review manageme
-      
-      {
-        duration: '4 months',
-        actions: [
-          'Start Facebook local advertising',
-          'Establish community partnerships'
-      },
-      
-        priority: 'Medium',
-          'Sponsor local events and orga
-          'Build referral partner network',
+          'Implement customer loyalty program',
+          'Scale winning campaigns and products',
+          'Launch seasonal promotional campaigns',
+          'Expand to new product categories'
         ]
+      }
     ]
+  },
   {
-    name: 'Professional Services Strategy',
-    ta
-      'Qualified Lead Gene
-      'Client Lifetime Value',
-      'Thought Leadership Metrics',
+    id: 'local-business',
+    name: 'Local Business Strategy',
+    description: 'Community-focused marketing approach for brick-and-mortar and local service businesses',
+    targetIndustries: ['Restaurants', 'Healthcare', 'Home Services', 'Retail Stores', 'Professional Services'],
+    keyMetrics: [
+      'Local Search Rankings',
+      'Google My Business Engagement',
+      'Online Reviews & Ratings',
+      'Foot Traffic & Store Visits',
+      'Local Market Share',
+      'Customer Retention Rate'
     ],
-      'LinkedIn Marketing',
-      'Speaking Engagements',
-      'Content Marketing',
+    recommendedChannels: [
+      'Google My Business',
+      'Local SEO',
+      'Facebook Local Ads',
+      'Nextdoor Advertising',
+      'Community Sponsorships',
+      'Local Print & Radio'
     ],
-      'Industry Exper
-      '
-      'Client Success Stories'
-    budgetAllocation: [
-      { channel: 'Content
-      { channel: '
-    ],
-      'Service offerings and specializa
-      'Client testimonials and case studies',
-      'Industry partnerships',
-    ],
-      'I
-      '
-      'Service delivery preferences'
-    ],
-      {
-        duration: 
-        actions: [
-          'Create cornerstone content p
-          'Identify speaking opportuni
-      },
-        p
-        
-       
-          'Apply for speaking opport
-        ]
-      {
-        duration: 
-        actions: [
-          'Pursue media coverage and awards
-          'Scale successful lead genera
-      }
-  }
-
-  con
-    
-   
-  )
-
-  return strategyTemplates.find(template => template.id === id)
-
-  const templates
-}
-export const getAllTemplates = (): Strat
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
+    contentPillars: [
       'Local Community Content',
       'Service Education',
       'Customer Testimonials',
@@ -387,4 +395,9 @@ export const getTemplateById = (id: string): StrategyTemplate | undefined => {
 
 export const getAllTemplates = (): StrategyTemplate[] => {
   return strategyTemplates
+}
+
+export const getRecommendedTemplate = (industry: string): StrategyTemplate | undefined => {
+  const recommendations = getTemplatesByIndustry(industry)
+  return recommendations.length > 0 ? recommendations[0] : strategyTemplates[0]
 }
