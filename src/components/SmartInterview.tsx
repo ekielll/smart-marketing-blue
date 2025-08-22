@@ -6,10 +6,12 @@ import { Progress } from '@/components/ui/progress'
 import { Badge } from '@/components/ui/badge'
 import { Brain, MessageCircle, Send, ArrowLeft } from '@phosphor-icons/react'
 import { CompanyInfo, InterviewResponse } from '../App'
+import { toast } from 'sonner'
 
 interface SmartInterviewProps {
   companyInfo: CompanyInfo
   onComplete: (responses: InterviewResponse[]) => void
+  onBack?: () => void
 }
 
 const INITIAL_QUESTIONS = {
@@ -27,7 +29,7 @@ const INITIAL_QUESTIONS = {
   'Other': 'What core problem does your business solve for customers?'
 }
 
-export default function SmartInterview({ companyInfo, onComplete }: SmartInterviewProps) {
+export default function SmartInterview({ companyInfo, onComplete, onBack }: SmartInterviewProps) {
   const [responses, setResponses] = useState<InterviewResponse[]>([])
   const [currentQuestion, setCurrentQuestion] = useState('')
   const [currentAnswer, setCurrentAnswer] = useState('')
@@ -69,6 +71,7 @@ Question:`
       const response = await spark.llm(prompt)
       
       if (response.trim() === 'COMPLETE' || conversation.length >= 10) {
+        toast.success('Interview complete! Moving to expert analysis.')
         onComplete(conversation)
         return
       }
@@ -77,6 +80,7 @@ Question:`
       setProgress(Math.min(90, (conversation.length / 8) * 100))
     } catch (error) {
       console.error('Error generating question:', error)
+      toast.error('Having trouble generating the next question. Using a fallback.')
       // Fallback question
       setCurrentQuestion('What would you say is your biggest challenge in growing your business right now?')
     } finally {
@@ -112,7 +116,14 @@ Question:`
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-4 mb-4">
-            <Button variant="ghost" size="sm" onClick={() => window.history.back()}>
+            <Button variant="ghost" size="sm" onClick={() => {
+              if (onBack) {
+                onBack()
+              } else if (window.history.length > 1) {
+                window.history.back()
+              }
+              toast.info('Returning to company information form.')
+            }}>
               <ArrowLeft size={16} className="mr-2" />
               Back
             </Button>

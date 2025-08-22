@@ -4,8 +4,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Phone, MessageCircle, Sparkles } from '@phosphor-icons/react'
+import { Phone, MessageCircle, Sparkles, ClockClockwise, Target } from '@phosphor-icons/react'
 import { CompanyInfo } from '../App'
+import { toast } from 'sonner'
 
 const industries = [
   'Technology', 'Healthcare', 'Finance', 'Retail', 'Manufacturing',
@@ -143,10 +144,18 @@ export default function WelcomeForm({ onSubmit }: WelcomeFormProps) {
                   type="button"
                   variant="outline"
                   className="w-full h-12 text-lg font-medium"
-                  onClick={() => alert('Feature coming soon! For now, please use the Smart Interview.')}
+                  onClick={() => {
+                    const message = `Hi! I'd like to discuss marketing strategy for ${formData.name || 'my company'}. Please call me at your earliest convenience.`
+                    const subject = `Marketing Consultation Request - ${formData.name || 'Company'}`
+                    const body = encodeURIComponent(`${message}\n\nCompany: ${formData.name}\nIndustry: ${formData.industry}\nContact: ${formData.contactName}\nEmail: ${formData.email}\nPhone: ${formData.phone}`)
+                    
+                    // Create mailto link for easy contact
+                    window.open(`mailto:?subject=${encodeURIComponent(subject)}&body=${body}`, '_blank')
+                    toast.success('Email template opened! Send it to schedule a consultation call.')
+                  }}
                 >
                   <Phone size={20} className="mr-2" />
-                  Call Me Instead
+                  Schedule Call
                 </Button>
               </div>
             </form>
@@ -157,7 +166,7 @@ export default function WelcomeForm({ onSubmit }: WelcomeFormProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
           <div className="space-y-2">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-              <MessageCircle size={24} className="text-primary" />
+              <ClockClockwise size={24} className="text-primary" />
             </div>
             <h3 className="font-semibold">Smart Conversation</h3>
             <p className="text-sm text-muted-foreground">
@@ -177,7 +186,7 @@ export default function WelcomeForm({ onSubmit }: WelcomeFormProps) {
           
           <div className="space-y-2">
             <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-              <Phone size={24} className="text-primary" />
+              <Target size={24} className="text-primary" />
             </div>
             <h3 className="font-semibold">Professional Report</h3>
             <p className="text-sm text-muted-foreground">

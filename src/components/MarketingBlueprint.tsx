@@ -13,9 +13,12 @@ import {
   MagnifyingGlass,
   FileText,
   CheckCircle,
-  Target
+  Target,
+  Share,
+  Printer
 } from '@phosphor-icons/react'
 import { CompanyInfo, InterviewResponse, ExpertAnalysis } from '../App'
+import { toast } from 'sonner'
 
 interface MarketingBlueprintProps {
   companyInfo: CompanyInfo
@@ -78,6 +81,34 @@ A${i + 1}: ${r.answer}
     a.click()
     document.body.removeChild(a)
     URL.revokeObjectURL(url)
+    toast.success('Marketing strategy report downloaded successfully!')
+  }
+
+  const shareStrategy = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: `Marketing Strategy for ${companyInfo.name}`,
+        text: `Custom marketing blueprint generated for ${companyInfo.name} in the ${companyInfo.industry} industry.`,
+        url: window.location.href
+      }).then(() => {
+        toast.success('Strategy shared successfully!')
+      }).catch(() => {
+        toast.error('Unable to share strategy.')
+      })
+    } else {
+      // Fallback to copying to clipboard
+      const shareText = `Check out this custom marketing strategy for ${companyInfo.name}!`
+      navigator.clipboard.writeText(`${shareText}\n\n${window.location.href}`).then(() => {
+        toast.success('Link copied to clipboard!')
+      }).catch(() => {
+        toast.error('Unable to copy link. Please copy the URL manually.')
+      })
+    }
+  }
+
+  const printReport = () => {
+    window.print()
+    toast.success('Print dialog opened!')
   }
 
   const formatAnalysisContent = (content: string) => {
@@ -122,6 +153,14 @@ A${i + 1}: ${r.answer}
               <Badge variant="secondary" className="px-4 py-2">
                 {companyInfo.industry}
               </Badge>
+              <Button onClick={shareStrategy} variant="outline" size="sm" className="gap-2">
+                <Share size={16} />
+                Share
+              </Button>
+              <Button onClick={printReport} variant="outline" size="sm" className="gap-2">
+                <Printer size={16} />
+                Print
+              </Button>
               <Button onClick={downloadPDF} className="gap-2">
                 <Download size={16} />
                 Download Report

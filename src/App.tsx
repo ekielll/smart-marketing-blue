@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useKV } from '@github/spark/hooks'
+import { toast } from 'sonner'
+import { Toaster } from '@/components/ui/sonner'
 import WelcomeForm from './components/WelcomeForm'
 import SmartInterview from './components/SmartInterview'
 import ExpertAnalysis from './components/ExpertAnalysis'
@@ -37,16 +39,19 @@ function App() {
   const handleCompanySubmit = (info: CompanyInfo) => {
     setCompanyInfo(info)
     setCurrentPhase('interview')
+    toast.success(`Welcome ${info.contactName}! Let's create a strategy for ${info.name}.`)
   }
 
   const handleInterviewComplete = (responses: InterviewResponse[]) => {
     setInterviewResponses(responses)
     setCurrentPhase('analysis')
+    toast.success('Interview complete! Our experts are now analyzing your responses.')
   }
 
   const handleAnalysisComplete = (analysis: ExpertAnalysis) => {
     setExpertAnalysis(analysis)
     setCurrentPhase('blueprint')
+    toast.success('Analysis complete! Your custom marketing blueprint is ready.')
   }
 
   const resetApp = () => {
@@ -54,10 +59,12 @@ function App() {
     setCompanyInfo(null)
     setInterviewResponses([])
     setExpertAnalysis(null)
+    toast.info('Starting fresh! Ready to create a new marketing strategy.')
   }
 
   return (
     <div className="min-h-screen bg-background">
+      <Toaster />
       {currentPhase === 'welcome' && (
         <WelcomeForm onSubmit={handleCompanySubmit} />
       )}
@@ -66,6 +73,7 @@ function App() {
         <SmartInterview 
           companyInfo={companyInfo}
           onComplete={handleInterviewComplete}
+          onBack={() => setCurrentPhase('welcome')}
         />
       )}
       

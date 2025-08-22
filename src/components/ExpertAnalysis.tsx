@@ -4,6 +4,7 @@ import { Progress } from '@/components/ui/progress'
 import { Badge } from '@/components/ui/badge'
 import { Brain, TrendUp, Users, Megaphone, MagnifyingGlass, CheckCircle } from '@phosphor-icons/react'
 import { CompanyInfo, InterviewResponse, ExpertAnalysis as ExpertAnalysisType } from '../App'
+import { toast } from 'sonner'
 
 interface ExpertAnalysisProps {
   companyInfo: CompanyInfo
@@ -153,6 +154,7 @@ Focus on keywords and strategies that will drive qualified traffic.`
         return { [expertKey]: analysis }
       } catch (error) {
         console.error(`Error with ${expert.name}:`, error)
+        toast.error(`Having trouble with ${expert.name} analysis. Using fallback insights.`)
         const fallbackAnalysis = `Analysis for ${expert.name} is being processed. Please check back shortly for detailed insights.`
         
         setAnalysisResults(prev => ({
@@ -177,6 +179,7 @@ Focus on keywords and strategies that will drive qualified traffic.`
         advertisingPro: analysisResults.advertisingPro || '',
         seoExpert: analysisResults.seoExpert || ''
       }
+      toast.success('All expert analyses complete! Generating your marketing blueprint.')
       onComplete(finalAnalysis)
     }, 1000)
   }
@@ -213,7 +216,7 @@ Focus on keywords and strategies that will drive qualified traffic.`
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {experts.map((expert) => {
             const isCompleted = completedExperts.includes(expert.name)
-            const isWorking = !isCompleted && completedExperts.length < experts.indexOf(expert)
+            const isWorking = !isCompleted && completedExperts.length === experts.indexOf(expert)
             
             return (
               <Card key={expert.name} className={`transition-all duration-500 ${
