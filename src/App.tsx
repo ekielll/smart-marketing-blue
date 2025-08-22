@@ -5,7 +5,7 @@ import { Toaster } from '@/components/ui/sonner'
 import WelcomeForm from './components/WelcomeForm'
 import SmartInterview from './components/SmartInterview'
 import ExpertAnalysis from './components/ExpertAnalysis'
-import MarketingBlueprint from './components/MarketingBlueprint'
+import MarketingBlueprint from './components/MarketingBlueprintNew'
 import Dashboard from './components/Dashboard'
 
 export type CompanyInfo = {
